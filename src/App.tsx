@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from '@emotion/styled';
 import NavMenu from './components/NavMenu';
 import FormDesign from './pages/FormDesign';
-import DataImport from './pages/DataImport';
 import DataExport from './pages/DataExport';
 import DataManage from './pages/DataManage';
 import FormDistribute from './pages/FormDistribute';
@@ -28,7 +27,6 @@ function App() {
         <ContentContainer>
           <Routes>
             <Route path="/" element={<FormDesign />} />
-            <Route path="/import" element={<DataImport />} />
             <Route path="/export" element={<DataExport />} />
             <Route path="/manage" element={<DataManage />} />
             <Route path="/distribute" element={<FormDistribute />} />

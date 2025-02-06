@@ -1,0 +1,1099 @@
+.excel-form-container {
+    padding: 16px 20px;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 16px;
+    color: #1f2329;
+    font-weight: 500;
+}
+
+.header > div {
+    display: flex;
+    gap: 4px;
+}
+
+.zoom-button,
+.close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    color: #1f2329;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.zoom-button:hover,
+.close-button:hover {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #dee0e3;
+    margin: 0 0 16px 0;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 40px;
+    position: relative;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.step span {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f2f3f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    color: #646a73;
+    font-size: 12px;
+}
+
+.step.active span {
+    background: #00b96b;
+    color: white;
+}
+
+.step.completed span {
+    background: #00b96b;
+    color: white;
+    font-size: 16px;
+}
+
+.step p {
+    margin: 0;
+    color: #1f2329;
+    font-size: 14px;
+}
+
+.step.active p,
+.step.completed p {
+    color: #1f2329;
+}
+
+.step-divider {
+    flex-grow: 1;
+    height: 4px;
+    background: #dee0e3;
+    margin: 0 16px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s linear;
+}
+
+.step-divider.completed {
+    background: #00b96b;
+}
+
+.upload-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 40px;
+    min-height: 0;
+}
+
+.info-box {
+    background: #f7f8fa;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-box li {
+    color: #1f2329;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 4px;
+    position: relative;
+    padding-left: 16px;
+}
+
+.info-box li:last-child {
+    margin-bottom: 0;
+}
+
+.info-box li:before {
+    content: "•";
+    color: #1f2329;
+    position: absolute;
+    left: 0;
+}
+
+.info-box a {
+    color: #00b96b;
+    text-decoration: none;
+}
+
+.info-box a:hover {
+    text-decoration: underline;
+}
+
+.upload-area {
+    flex: 1;
+    min-height: 260px;
+    max-height: 320px;
+    margin-bottom: 20px;
+    border: 1px dashed #dee0e3;
+    border-radius: 4px;
+    padding: 120px 0;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-area.uploading {
+    cursor: default;
+    padding: 0;
+}
+
+.upload-progress {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar {
+    width: 90%;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.progress-bar-inner {
+    height: 100%;
+    background: #00b96b;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.upload-status {
+    color: #1f2329;
+    font-size: 14px;
+    margin: 0;
+}
+
+.upload-area:hover,
+.upload-area.dragging {
+    border-color: #00b96b;
+    background: #f6ffed;
+}
+
+.upload-icon {
+    margin-bottom: 16px;
+}
+
+.upload-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.upload-text {
+    color: #1f2329;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.click-text {
+    color: #00b96b;
+    text-decoration: none;
+}
+
+.file-limit {
+    color: #646a73;
+    font-size: 12px;
+    margin: 0;
+}
+
+.step.completed span {
+    background: #00b96b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 40px;
+    min-height: 0;
+}
+
+.sheet-selector-container {
+    margin-bottom: 16px;
+}
+
+.sheet-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sheet-selector label {
+    color: #1f2329;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.preview-hint {
+    color: #646a73;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.data-table {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid #dee0e3;
+    border-radius: 4px;
+    min-height: 0;
+    margin-bottom: 16px;
+}
+
+.data-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 6px 8px;
+    border: 1px solid #dee0e3;
+    font-size: 12px;
+    text-align: left;
+    background: white;
+    min-width: 120px;
+}
+
+/* 标题行样式 */
+.title-column {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: #00b96b !important;
+    color: white !important;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* 序号列样式 */
+.row-number {
+    text-align: center;
+    min-width: 60px;
+    background: inherit;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+
+/* 默认行样式 */
+.data-table tbody tr {
+    background: white;
+}
+
+.data-table tbody tr:nth-child(odd) {
+    background: #fafafa;
+}
+
+/* 选中行样式 */
+.data-table tbody tr.title-row {
+    background: #e6f4ff !important;
+}
+
+.data-table tbody tr.title-row td {
+    background: inherit !important;
+}
+
+.data-table tbody tr.title-row td:first-child {
+    background: #00b96b !important;
+    color: white !important;
+    position: relative;
+}
+
+/* 标题行箭头 */
+.data-table tbody tr.title-row td:first-child::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #00b96b;
+}
+
+/* 表头样式 */
+.data-table thead th {
+    background: #fafafa !important;
+    font-weight: normal;
+    color: #1f2329;
+    border-color: #dee0e3;
+    text-align: left;
+}
+
+.data-table thead th:first-child {
+    background: #00b96b !important;
+    color: white !important;
+    text-align: center;
+}
+
+/* 禁用列样式 */
+.column-disabled {
+    background-color: #f5f5f5 !important;
+    color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* 表格悬浮效果 */
+.data-table tbody tr:hover:not(.title-row) {
+    background: #fafafa;
+    cursor: pointer;
+}
+
+/* 标题行之前的行样式 */
+.data-table tbody tr.before-title-row {
+    opacity: 0.5;
+}
+
+.title-label {
+    background: #00b96b !important;
+    color: white !important;
+    font-weight: 500;
+    text-align: center;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    position: relative;
+}
+
+.title-label::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #00b96b;
+}
+
+.form-footer {
+    margin-top: 12px;
+    padding: 0 40px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.help-link {
+    color: #00b96b;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.help-link:hover {
+    text-decoration: underline;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-previous,
+.btn-next {
+    padding: 5px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-previous {
+    background: white;
+    border: 1px solid #dee0e3;
+    color: #1f2329;
+}
+
+.btn-next {
+    background: #00b96b;
+    border: 1px solid #00b96b;
+    color: white;
+}
+
+.btn-previous:hover {
+    background: #f7f8fa;
+}
+
+.btn-next:hover {
+    background: #00a15c;
+}
+
+.form-config-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 40px;
+    min-height: 0;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.form-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-field label {
+    color: #1f2329;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.form-input {
+    width: 165px;
+    height: 32px;
+    padding: 4px 11px;
+    border: 1px solid #dee0e3;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.import-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    background: #edf9f1;
+    border-radius: 2px;
+    color: #1f2329;
+    font-size: 12px;
+    margin-left: auto;
+    height: 32px;
+}
+
+.success-icon-circle {
+    width: 16px;
+    height: 16px;
+    background: #46c26f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon {
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-fields-table {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid #dee0e3;
+    border-radius: 4px;
+    min-height: 0;
+    margin-bottom: 16px;
+}
+
+.form-fields-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-fields-table th {
+    background: white;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: normal;
+    color: #1f2329;
+    border: 1px solid #dee0e3;
+    min-width: 120px;
+}
+
+.form-fields-table td {
+    padding: 6px 8px;
+    border: 1px solid #dee0e3;
+    background: white;
+}
+
+.form-fields-table tbody tr {
+    background: white;
+}
+
+.form-fields-table tbody tr td {
+    background: white;
+}
+
+.form-fields-table thead tr:first-child th {
+    background: white;
+}
+
+.form-fields-table thead tr:nth-child(2) th {
+    background: white;
+}
+
+.form-fields-table thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: white;
+    min-width: 100px;
+}
+
+.form-fields-table tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: white;
+    text-align: center;
+    color: #646a73;
+    min-width: 100px;
+}
+
+.field-input {
+    width: 100%;
+    height: 32px;
+    padding: 4px 11px;
+    border: 1px solid #dee0e3;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.data-table thead tr {
+    background: transparent !important;
+}
+
+.data-table thead th:first-child {
+    background: #00b96b !important;
+    color: white !important;
+}
+
+.data-table thead th:not(:first-child) {
+    background: #edf9f1 !important;
+    color: #1f2329 !important;
+}
+
+.data-table tbody tr:nth-child(odd) {
+    background: #f7f8fa !important;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background: white !important;
+}
+
+.data-table tbody tr td {
+    background: inherit !important;
+    color: #1f2329 !important;
+}
+
+.title-row {
+    background: #46c26f !important;
+}
+
+.title-row td {
+    color: white !important;
+}
+
+.title-label {
+    background: #46c26f !important;
+    color: white !important;
+    font-weight: 500;
+    text-align: center;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    position: relative;
+}
+
+.title-label::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #46c26f;
+}
+
+.row-number {
+    color: #1f2329 !important;
+    text-align: center;
+    width: 60px;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: inherit !important;
+}
+
+.before-title-row td {
+    background: inherit !important;
+    color: #1f2329 !important;
+}
+
+.title-row td:not(:first-child) {
+    background: #edf9f1 !important;
+    color: #1f2329 !important;
+}
+
+.title-label {
+    background: #00b96b !important;
+    color: white !important;
+    font-weight: 500;
+    text-align: center;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    position: relative;
+}
+
+.title-label::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #00b96b;
+}
+
+.column-selector {
+    margin-top: 12px;
+    padding-left: 4px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.column-disabled {
+    background-color: #f5f5f5 !important;
+    color: #00000040 !important;
+}
+
+/* 自定义 Checkbox 样式 */
+.ant-checkbox-wrapper .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #00b96b !important;
+    border-color: #00b96b !important;
+}
+
+.ant-checkbox-wrapper .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    background-color: #00b96b !important;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner {
+    border-color: #00b96b !important;
+}
+
+.ant-checkbox-wrapper .ant-checkbox-checked::after {
+    border-color: #00b96b !important;
+}
+
+/* 勾选的颜色也是绿色 */
+.ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #fff !important;
+}
+
+/* 半选状态 */
+.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    background-color: #00b96b !important;
+}
+
+/* 鼠标悬浮状态 */
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+    border-color: #00b96b !important;
+}
+
+/* 点击时的动画效果 */
+.ant-checkbox-checked::after {
+    border: 1px solid #00b96b !important;
+}
+
+/* 自定义下拉菜单样式 */
+.ant-dropdown {
+    z-index: 1000;
+}
+
+.ant-dropdown-menu {
+    padding: 4px 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ant-dropdown-menu-item {
+    padding: 8px 12px !important;
+}
+
+.ant-dropdown-menu-item:hover {
+    background-color: transparent !important;
+}
+
+.ant-dropdown-menu-item > div {
+    padding: 0;
+}
+
+.ant-checkbox-wrapper {
+    width: 100%;
+}
+
+.ant-checkbox-wrapper:hover {
+    background-color: #f6fffa;
+}
+
+/* 修改分割线样式 */
+.ant-dropdown-menu-item-divider {
+    background-color: #dee0e3;
+    margin: 4px 0;
+}
+
+.column-select-button {
+    background: white;
+    border: 1px solid #dee0e3;
+    color: #1f2329;
+    font-size: 14px;
+    height: 32px;
+    padding: 4px 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.column-select-button:hover {
+    color: #00b96b;
+    border-color: #00b96b;
+}
+
+.column-select-button .anticon {
+    font-size: 12px;
+}
+
+/* 自定义 Checkbox 样式 */
+:where(.css-dev-only-do-not-override-1vr7spz).ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #00b96b !important;
+    border-color: #00b96b !important;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    background-color: #00b96b !important;
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-inner,
+:where(.css-dev-only-do-not-override-1vr7spz).ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+    border-color: #00b96b !important;
+}
+
+/* 美化滚动条 */
+.data-table,
+.form-fields-table {
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
+/* 修改放大按钮样式 */
+.zoom-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+    color: #1f2329;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    transition: all 0.3s ease;
+}
+
+.zoom-button:hover {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+}
+
+/* 添加全屏时的样式 */
+:global(.ant-modal-content.fullscreen) {
+    width: 100vw !important;
+    height: 100vh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    transform: none !important;
+    transition: all 0.3s ease;
+}
+
+/* 全屏时的基础样式调整 */
+.excel-form-container.fullscreen {
+    padding: 32px;
+}
+
+/* 全屏时的标题和按钮放大 */
+.fullscreen .header h1 {
+    font-size: 20px;
+}
+
+.fullscreen .zoom-button,
+.fullscreen .close-button {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+}
+
+/* 全屏时的步骤指示器放大 */
+.fullscreen .step-indicator {
+    padding: 0 80px;
+    margin-bottom: 24px;
+}
+
+.fullscreen .step span {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+}
+
+.fullscreen .step p {
+    font-size: 16px;
+}
+
+/* 全屏时的信息框放大 */
+.fullscreen .info-box {
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.fullscreen .info-box li {
+    font-size: 16px;
+    line-height: 2;
+    padding-left: 20px;
+}
+
+/* 全屏时的上传区域放大 */
+.fullscreen .upload-section {
+    padding: 0 80px;
+}
+
+.fullscreen .upload-area {
+    min-height: 450px;
+}
+
+.fullscreen .upload-icon svg {
+    width: 64px;
+    height: 64px;
+}
+
+.fullscreen .upload-text {
+    font-size: 16px;
+}
+
+/* 全屏时的表格内容放大 */
+.fullscreen .data-table th,
+.fullscreen .data-table td,
+.fullscreen .form-fields-table th,
+.fullscreen .form-fields-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.fullscreen .data-table {
+    margin-bottom: 24px;
+}
+
+/* 全屏时的表单配置区域放大 */
+.fullscreen .form-config-section {
+    padding: 0 80px;
+}
+
+.fullscreen .form-header {
+    margin-bottom: 32px;
+}
+
+.fullscreen .form-field label {
+    font-size: 16px;
+}
+
+.fullscreen .form-input {
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+/* 全屏时的底部按钮放大 */
+.fullscreen .form-footer {
+    padding: 0 80px;
+    margin-top: 32px;
+    height: 40px;
+}
+
+.fullscreen .help-link {
+    font-size: 16px;
+}
+
+.fullscreen .btn-previous,
+.fullscreen .btn-next {
+    padding: 8px 24px;
+    font-size: 16px;
+    height: 40px;
+}
+
+/* 全屏时的下拉菜单放大 */
+.fullscreen .ant-select {
+    font-size: 16px;
+}
+
+.fullscreen .ant-select-selector {
+    height: 40px !important;
+}
+
+.fullscreen .ant-select-selection-item {
+    line-height: 38px !important;
+}
+
+/* 全屏时的滚动条放大 */
+.fullscreen .data-table,
+.fullscreen .form-fields-table {
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+    }
+}
+
+/* 全屏时的工作表选择器放大 */
+.fullscreen .sheet-selector label {
+    font-size: 16px;
+}
+
+.fullscreen .preview-hint {
+    font-size: 16px;
+}
+
+/* 全屏时的列选择按钮放大 */
+.fullscreen .column-select-button {
+    height: 40px;
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+/* 全屏时的复选框放大 */
+.fullscreen .ant-checkbox-wrapper {
+    font-size: 16px;
+}
+
+.fullscreen .ant-checkbox {
+    transform: scale(1.2);
+}
+
+/* 固定表头 */
+.data-table thead tr,
+.form-fields-table thead tr {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white !important;
+}
