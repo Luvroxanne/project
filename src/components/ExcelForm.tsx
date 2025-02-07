@@ -5,6 +5,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { read, utils } from 'xlsx';
 import './ExcelForm.css';
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 interface ExcelData {
     headers: string[];
@@ -327,63 +328,56 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
     };
 
     const handleSaveForm = async () => {
-        if (!selectedSheet || !excelData[selectedSheet]) {
-            message.error('请先导入数据');
-            return;
-        }
+        try {
+            if (!selectedSheet || !excelData[selectedSheet]) {
+                message.error('请选择工作表');
+                return;
+            }
 
-        const selectedData = excelData[selectedSheet];
-        const currentTime = dayjs().toISOString();
+            const sheetData = excelData[selectedSheet];
+            const titleIndex = titleRowIndex[selectedSheet] || 0;
 
-        // 构建要保存的数据结构
-        const formData: FormData = {
-            formInfo: {
-                formName,
-                formGroup,
-                createTime: currentTime,
-                updateTime: currentTime
-            },
-            fields: selectedData.headers
-                .filter((_, index) => selectedData.selectedColumns[index])
-                .map((header, index) => ({
-                    title: header,
+            // 构造要提交的数据
+            const formData: FormData = {
+                formInfo: {
+                    formName: formName,
+                    formGroup: formGroup,
+                    createTime: dayjs().toISOString(),
+                    updateTime: dayjs().toISOString()
+                },
+                fields: sheetData.headers.map((title, index) => ({
+                    title: title,
                     key: `field_${index}`,
-                    type: fieldTypes[`field_${index}`] || 'text',
+                    type: fieldTypes[title] || 'text',
                     rules: [{
-                        required: true,
-                        message: `${header}不能为空`
+                        required: false,
+                        message: `${title}不能为空`
                     }]
                 })),
-            data: {
-                headers: selectedData.headers.filter((_, index) => selectedData.selectedColumns[index]),
-                rows: selectedData.rows
-                    .slice(titleRowIndex[selectedSheet] + 1)
-                    .map(row => row.filter((_, index) => selectedData.selectedColumns[index]))
-            },
-            metadata: {
-                totalRows: selectedData.rows.length - (titleRowIndex[selectedSheet] + 1),
-                selectedColumns: selectedData.selectedColumns,
-                titleRowIndex: titleRowIndex[selectedSheet],
-                importTime: currentTime
-            }
-        };
-
-        try {
-            // 保存到本地存储，实际项目中应该调用API
-            const existingForms = JSON.parse(localStorage.getItem('forms') || '[]');
-            const newForm = {
-                id: Date.now().toString(),
-                ...formData
+                data: {
+                    headers: sheetData.headers,
+                    rows: sheetData.rows
+                },
+                metadata: {
+                    totalRows: sheetData.rows.length,
+                    selectedColumns: sheetData.selectedColumns,
+                    titleRowIndex: titleIndex,
+                    importTime: dayjs().toISOString()
+                }
             };
-            existingForms.push(newForm);
-            localStorage.setItem('forms', JSON.stringify(existingForms));
-            
-            message.success('表单保存成功');
-            onClose(); // 关闭弹窗
-            window.location.href = '/manage'; // 跳转到数据管理页面
+
+            // 发送到 Apifox Mock 服务器
+            const response = await axios.post('http://127.0.0.1:4523/m1/5822023-5507358-default/forms', formData);
+
+            if (response.data.code === 200) {
+                message.success('保存成功');
+                onClose();
+            } else {
+                throw new Error(response.data.message || '保存失败');
+            }
         } catch (error) {
-            message.error('保存失败，请重试');
             console.error('Save form error:', error);
+            message.error('保存失败，请重试');
         }
     };
 
