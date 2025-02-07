@@ -5,6 +5,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-bottom: 80px;
     transition: all 0.3s ease;
 }
 
@@ -271,6 +273,8 @@
     flex-direction: column;
     padding: 0 40px;
     min-height: 0;
+    overflow: auto;
+    margin-bottom: 20px;
 }
 
 .sheet-selector-container {
@@ -435,22 +439,27 @@
 }
 
 .form-footer {
-    margin-top: 12px;
-    padding: 0 40px;
-    height: 32px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 16px 40px;
+    background: #fff;
+    border-top: 1px solid #dee0e3;
+    z-index: 10;
 }
 
 .help-link {
     color: #00b96b;
+    font-size: 14px;
+    text-decoration: none;
     background: none;
     border: none;
     padding: 0;
-    font-size: 14px;
     cursor: pointer;
-    text-decoration: none;
 }
 
 .help-link:hover {
@@ -464,14 +473,16 @@
 
 .btn-previous,
 .btn-next {
-    padding: 5px 16px;
+    min-width: 80px;
+    height: 32px;
+    padding: 0 16px;
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
-    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s;
 }
 
 .btn-previous {
@@ -480,14 +491,15 @@
     color: #1f2329;
 }
 
+.btn-previous:hover {
+    border-color: #00b96b;
+    color: #00b96b;
+}
+
 .btn-next {
     background: #00b96b;
     border: 1px solid #00b96b;
     color: white;
-}
-
-.btn-previous:hover {
-    background: #f7f8fa;
 }
 
 .btn-next:hover {
@@ -500,6 +512,8 @@
     flex-direction: column;
     padding: 0 40px;
     min-height: 0;
+    overflow: auto;
+    margin-bottom: 20px;
 }
 
 .form-header {

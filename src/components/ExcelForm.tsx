@@ -4,6 +4,7 @@ import { message, Select, Checkbox, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { read, utils } from 'xlsx';
 import './ExcelForm.css';
+import dayjs from 'dayjs';
 
 interface ExcelData {
     headers: string[];
@@ -21,6 +22,34 @@ interface ExcelFormProps {
     onClose: () => void;
 }
 
+interface FormData {
+    formInfo: {
+        formName: string;
+        formGroup: string;
+        createTime: string;
+        updateTime: string;
+    };
+    fields: {
+        title: string;
+        key: string;
+        type: string;
+        rules: {
+            required: boolean;
+            message: string;
+        }[];
+    }[];
+    data: {
+        headers: string[];
+        rows: any[][];
+    };
+    metadata: {
+        totalRows: number;
+        selectedColumns: boolean[];
+        titleRowIndex: number;
+        importTime: string;
+    };
+}
+
 const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }) => {
     const [activeSteps, setActiveSteps] = useState<number[]>([1]); // 使用数组存储激活的步骤
     const [isDragging, setIsDragging] = useState(false);
@@ -36,6 +65,7 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
     const [formName, setFormName] = useState('新建 Microsoft Excel ...');
     const [formGroup, setFormGroup] = useState('--无分组--');
     const [importCount, setImportCount] = useState(0);
+    const [fieldTypes, setFieldTypes] = useState<{ [key: string]: string }>({});
 
     const handleZoomToggle = () => {
         onZoomChange(!isZoomed);
@@ -269,10 +299,7 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
 
     const handleHelpLinkClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        const helpWindow = window.open('', '_blank');
-        if (helpWindow) {
-            helpWindow.location.href = '/import-guide';
-        }
+        window.open('/help-doc', '_blank', 'noopener,noreferrer');
     };
 
     const handleColumnSelect = (columnIndex: number) => {
@@ -297,6 +324,74 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
             };
             setExcelData(newExcelData);
         }
+    };
+
+    const handleSaveForm = async () => {
+        if (!selectedSheet || !excelData[selectedSheet]) {
+            message.error('请先导入数据');
+            return;
+        }
+
+        const selectedData = excelData[selectedSheet];
+        const currentTime = dayjs().toISOString();
+
+        // 构建要保存的数据结构
+        const formData: FormData = {
+            formInfo: {
+                formName,
+                formGroup,
+                createTime: currentTime,
+                updateTime: currentTime
+            },
+            fields: selectedData.headers
+                .filter((_, index) => selectedData.selectedColumns[index])
+                .map((header, index) => ({
+                    title: header,
+                    key: `field_${index}`,
+                    type: fieldTypes[`field_${index}`] || 'text',
+                    rules: [{
+                        required: true,
+                        message: `${header}不能为空`
+                    }]
+                })),
+            data: {
+                headers: selectedData.headers.filter((_, index) => selectedData.selectedColumns[index]),
+                rows: selectedData.rows
+                    .slice(titleRowIndex[selectedSheet] + 1)
+                    .map(row => row.filter((_, index) => selectedData.selectedColumns[index]))
+            },
+            metadata: {
+                totalRows: selectedData.rows.length - (titleRowIndex[selectedSheet] + 1),
+                selectedColumns: selectedData.selectedColumns,
+                titleRowIndex: titleRowIndex[selectedSheet],
+                importTime: currentTime
+            }
+        };
+
+        try {
+            // 保存到本地存储，实际项目中应该调用API
+            const existingForms = JSON.parse(localStorage.getItem('forms') || '[]');
+            const newForm = {
+                id: Date.now().toString(),
+                ...formData
+            };
+            existingForms.push(newForm);
+            localStorage.setItem('forms', JSON.stringify(existingForms));
+            
+            message.success('表单保存成功');
+            onClose(); // 关闭弹窗
+            window.location.href = '/manage'; // 跳转到数据管理页面
+        } catch (error) {
+            message.error('保存失败，请重试');
+            console.error('Save form error:', error);
+        }
+    };
+
+    const handleFieldTypeChange = (fieldKey: string, type: string) => {
+        setFieldTypes(prev => ({
+            ...prev,
+            [fieldKey]: type
+        }));
     };
 
     const renderColumnSelector = () => {
@@ -474,6 +569,26 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
                     </table>
                 )}
             </div>
+            
+            <div className="form-footer">
+                <button className="help-link" onClick={handleHelpLinkClick}>
+                    导入说明和示例
+                </button>
+                <div className="button-group">
+                    <button 
+                        className="btn-previous" 
+                        onClick={() => setActiveSteps([1])}
+                    >
+                        上一步
+                    </button>
+                    <button 
+                        className="btn-next" 
+                        onClick={() => setActiveSteps([1, 2, 3])}
+                    >
+                        下一步
+                    </button>
+                </div>
+            </div>
         </div>
     );
 
@@ -567,11 +682,12 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
                                 {headerTitles.map((_, index) => (
                                     <th key={index}>
                                         <Select
-                                            defaultValue="数字"
+                                            value={fieldTypes[`field_${index}`] || 'text'}
+                                            onChange={(value) => handleFieldTypeChange(`field_${index}`, value)}
                                             style={{ width: '100%' }}
                                             options={[
-                                                { value: 'number', label: '数字' },
                                                 { value: 'text', label: '单行文本' },
+                                                { value: 'number', label: '数字' },
                                                 { value: 'textarea', label: '多行文本' },
                                                 { value: 'date', label: '日期时间' },
                                                 { value: 'radio', label: '单选按钮组' },
@@ -599,6 +715,25 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="form-footer">
+                    <button className="help-link" onClick={handleHelpLinkClick}>
+                        导入说明和示例
+                    </button>
+                    <div className="button-group">
+                        <button 
+                            className="btn-previous" 
+                            onClick={() => setActiveSteps([1, 2])}
+                        >
+                            上一步
+                        </button>
+                        <button 
+                            className="btn-next" 
+                            onClick={handleSaveForm}
+                        >
+                            保存
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -649,30 +784,6 @@ const ExcelForm: React.FC<ExcelFormProps> = ({ isZoomed, onZoomChange, onClose }
             </div>
             
             {renderCurrentStep()}
-
-            <div className="form-footer">
-                <button className="help-link" onClick={handleHelpLinkClick}>导入说明和示例</button>
-                <div className="button-group">
-                    <button 
-                        className="btn-previous" 
-                        onClick={() => {
-                            if (activeSteps.includes(3)) {
-                                setActiveSteps([1, 2]);
-                            } else if (activeSteps.includes(2)) {
-                                setActiveSteps([1]);
-                            }
-                        }}
-                    >
-                        上一步
-                    </button>
-                    <button 
-                        className="btn-next"
-                        onClick={handleNextStep}
-                    >
-                        {activeSteps.includes(3) ? '导入' : '下一步'}
-                    </button>
-                </div>
-            </div>
         </div>
     );
 };
